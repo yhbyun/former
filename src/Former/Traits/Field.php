@@ -144,19 +144,24 @@ abstract class Field extends FormerObject implements FieldInterface
   {
     // Dry syntax (hidden fields, plain fields)
     if ($this->isUnwrappable()) {
-      $html = $this->render();
+      return $this->render();
 
     // Control group syntax
     } elseif (Form::hasInstanceOpened()) {
-      $html = $this->group->wrapField($this);
+      $this->setId();
+
+      // Next field in group
+      $field = $this->app['former.framework']->wrapField($this);
+      $group = $this->group->setChild($field, 'field');
+
+      return $group->render();
 
     // Classic syntax
     } else {
-      $html  = $this->currentFramework()->createLabelOf($this);
-      $html .= $this->render();
-    }
+      $label = $this->currentFramework()->createLabelOf($this);
 
-    return $html;
+      return $label . $this->render();
+    }
   }
 
   /**
@@ -266,11 +271,7 @@ abstract class Field extends FormerObject implements FieldInterface
     $label = $this->app['former']->label($text, $for, $attributes);
 
     // Set label
-    if ($this->group) {
-      $this->group->setLabel($label);
-    } else {
-      $this->label = $label;
-    }
+    $this->label = $label;
 
     return $this;
   }
@@ -326,7 +327,7 @@ abstract class Field extends FormerObject implements FieldInterface
    */
   public function getLabel()
   {
-    return $this->label;
+    return $this->group->getChild('label');
   }
 
   ////////////////////////////////////////////////////////////////////

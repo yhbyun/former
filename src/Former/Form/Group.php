@@ -36,13 +36,6 @@ class Group extends Tag
   protected $raw = false;
 
   /**
-   * The group label
-   *
-   * @var Element
-   */
-  protected $label;
-
-  /**
    * The group help
    *
    * @var string
@@ -116,16 +109,6 @@ class Group extends Tag
   }
 
   /**
-   * Prints out the opening of the Control Group
-   *
-   * @return string A control group opening tag
-   */
-  public function __toString()
-  {
-    return $this->open().$this->getFormattedLabel();
-  }
-
-  /**
    * Opens a group
    *
    * @return string Opening tag
@@ -145,6 +128,14 @@ class Group extends Tag
     if ($this->app->bound('former.field') and $this->app['former.field']->isRequired()) {
       $this->addClass($this->app['former']->getOption('required_class'));
     }
+
+    // Add classes
+    $label = $this->getChild('label');
+
+    // Format label
+    $label->addClass($this->app['former.framework']->getLabelClasses());
+    $label = $this->app['former.framework']->createLabelOf($this->app['former.field'], $label);
+    $label = $this->app['former.framework']->wrapLabel($label);
 
     return parent::open();
   }
@@ -210,26 +201,13 @@ class Group extends Tag
    */
   public function setLabel($label)
   {
+    // Create element
     if (!$label instanceof Element) {
       $label = Helpers::translate($label);
       $label = Element::create('label', $label)->for($label);
     }
 
-    $this->label = $label;
-  }
-
-  /**
-   * Get the formatted group label
-   *
-   * @return string
-   */
-  public function getFormattedLabel()
-  {
-    if (!$this->label) {
-      return false;
-    }
-
-    return $this->label->addClass($this->app['former.framework']->getLabelClasses());
+    $this->setChild($label, 'label');
   }
 
   /**
@@ -363,36 +341,18 @@ class Group extends Tag
 
     if (!self::$opened) {
 
-      // for non-custom groups, normal error handling applies
+      // For non-custom groups, normal error handling applies
       $errors = $this->app['former']->getErrors();
 
     } elseif (!empty($this->validations)) {
 
-      // error handling only when validations specified for custom groups
+      // Error handling only when validations specified for custom groups
       foreach ($this->validations as $validation) {
         $errors .= $this->app['former']->getErrors($validation);
       }
     }
 
     return $errors;
-  }
-
-  /**
-   * Wraps content in a group
-   *
-   * @param mixed  $contents The content
-   * @param string $label    The label to add
-   *
-   * @return string A group
-   */
-  public function wrap($contents, $label = null)
-  {
-    $group = $this->open();
-      $group .= $label;
-      $group .= $this->app['former.framework']->wrapField($contents);
-    $group .= $this->close();
-
-    return $group;
   }
 
   /**
@@ -410,8 +370,6 @@ class Group extends Tag
 
     // Wrap label in framework classes
     $this->label->addClass($this->app['former.framework']->getLabelClasses());
-    $this->label = $this->app['former.framework']->createLabelOf($field, $this->label);
-    $this->label = $this->app['former.framework']->wrapLabel($this->label);
 
     return $this->label;
   }

@@ -2,9 +2,11 @@
 namespace Former;
 
 use Closure;
+use Former\Form\Group;
+use Former\Traits\Field;
 use Illuminate\Container\Container;
-use Illuminate\Validation\Validator;
 use Illuminate\Support\MessageBag;
+use Illuminate\Validation\Validator;
 
 /**
  * Helps the user interact with the various Former components
@@ -139,7 +141,15 @@ class Former
     // Dispatch to the different Form\Fields
     $framework = isset($this->app['former.form.framework']) ? $this->app['former.form.framework'] : $this->app['former.framework'];
     $field     = $this->dispatch->toFields($method, $parameters);
-    $field     = $framework->getFieldClasses($field, $classes);
+
+    // Add classes
+    if ($field instanceof Field) {
+      $field = $framework->getFieldClasses($field, $classes);
+    } elseif ($field instanceof Group) {
+      foreach ($field->getChildren() as $name => $child) {
+        $field->setChild($framework->getFieldClasses($child, $classes), $name);
+      }
+    }
 
     // Else bind field
     $this->app->instance('former.field', $field);
