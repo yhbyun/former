@@ -1,6 +1,9 @@
 <?php namespace Former\Framework;
 
-class TwitterBootstrap3Validator extends TwitterBootstrap3 implements FrameworkInterface
+use HtmlObject\Element;
+use Illuminate\Container\Container;
+
+class TwitterBootstrap3Validator extends TwitterBootstrap3
 {
     public function __construct(Container $app)
     {
