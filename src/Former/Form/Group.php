@@ -174,10 +174,10 @@ class Group extends Tag
 	public function wrapField($field)
 	{
 		$label = $this->getLabel($field);
-		$field = $this->prependAppend($field);
-		$field .= $this->getHelp();
+		$fieldHtml = $this->prependAppend($field);
+		$fieldHtml .= $this->getHelp($field);
 
-		return $this->wrap($field, $label);
+		return $this->wrap($fieldHtml, $label);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -425,7 +425,7 @@ class Group extends Tag
 	 *
 	 * @return string A .help-block or .help-inline
 	 */
-	protected function getHelp()
+	protected function getHelp($field)
 	{
 		$inline = array_get($this->help, 'inline');
 		$block  = array_get($this->help, 'block');
@@ -433,7 +433,11 @@ class Group extends Tag
 		// Replace help text with error if any found
 		$errors = $this->app['former']->getErrors();
 		if ($errors and $this->app['former']->getOption('error_messages')) {
-			$inline = $this->app['former.framework']->createHelp($errors);
+			if ($this->app['former.framework']->isnt('TwitterBootstrap3Validator')) {
+				$inline = $this->app['former.framework']->createHelp($errors);
+			} else {
+				$inline = $this->app['former.framework']->createError($errors, $field);
+			}
 		}
 
 		return join(null, array($inline, $block));
