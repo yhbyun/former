@@ -1,4 +1,7 @@
 <?php
+namespace Former\Framework;
+
+use Former\TestCases\FormerTests;
 
 class TwitterBootstrap3ValidatorTest extends FormerTests
 {
