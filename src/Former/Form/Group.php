@@ -89,6 +89,8 @@ class Group extends Tag
 	 */
 	public static $openGroup = null;
 
+    protected $fieldContainerAttributes = array();
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////// CORE METHODS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -207,6 +209,24 @@ class Group extends Tag
 		$this->addClass($class);
 	}
 
+    public function addFieldContainerClass($class)
+    {
+        if (is_array($class)) {
+            $class = implode(' ', $class);
+        }
+
+        // Create class attribute if it isn't already
+        if (!isset($this->fieldContainerAttributes['class'])) {
+            $this->fieldContainerAttributes['class'] = null;
+        }
+
+        // Prevent adding a class twice
+        $classes = explode(' ', $this->fieldContainerAttributes['class']);
+        if (!in_array($class, $classes)) {
+            $this->fieldContainerAttributes['class'] = trim($this->fieldContainerAttributes['class'].' '.$class);
+        }
+    }
+
 	/**
 	 * Adds a label to the group
 	 *
@@ -294,7 +314,7 @@ class Group extends Tag
 	public function blockHelp($help, $attributes = array())
 	{
 		// Reserved method
-		if ($this->app['former.framework']->isnt('TwitterBootstrap') && $this->app['former.framework']->isnt('TwitterBootstrap3')) {
+		if ($this->app['former.framework']->isnt('TwitterBootstrap') && $this->app['former.framework']->isnt('TwitterBootstrap3') && $this->app['former.framework']->isnt('TwitterBootstrap3Validator')) {
 			throw new BadMethodCallException('This method is only available on the Bootstrap framework');
 		}
 
@@ -392,6 +412,11 @@ class Group extends Tag
 	{
 		$group = $this->open();
 		$group .= $label;
+        if ($this->app['former.framework']->is('TwitterBootstrap3') || $this->app['former.framework']->is('TwitterBootstrap3Validator')) {
+            if (isset($this->fieldContainerAttributes['class'])) {
+                $this->app['former.framework']->setFieldContainerClass($this->fieldContainerAttributes['class']);
+            }
+        }
 		$group .= $this->app['former.framework']->wrapField($contents);
 		$group .= $this->close();
 

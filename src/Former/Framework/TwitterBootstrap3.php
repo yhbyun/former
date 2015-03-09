@@ -92,6 +92,8 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 	 */
 	protected $iconPrefix = 'glyphicon';
 
+    protected $defaultFieldWidth;
+
 	/**
 	 * Create a new TwitterBootstrap instance
 	 *
@@ -198,9 +200,14 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 		}
 
 		$this->labelWidth  = ltrim($labelWidthClass);
-		$this->fieldWidth  = ltrim($fieldWidthClass);
+        $this->fieldWidth  = $this->defaultFieldWidth = ltrim($fieldWidthClass);
 		$this->fieldOffset = ltrim($fieldOffsetClass);
 	}
+
+    public function setFieldContainerClass($class)
+    {
+        $this->fieldWidth  = $class;
+    }
 
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// ADD CLASSES //////////////////////////
@@ -424,7 +431,9 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 	public function wrapField($field)
 	{
 		if ($this->app['former.form']->isOfType('horizontal')) {
-			return Element::create('div', $field)->addClass($this->fieldWidth);
+            $width = $this->fieldWidth;
+            $this->fieldWidth = $this->defaultFieldWidth;
+            return Element::create('div', $field)->addClass($width);
 		}
 
 		return $field;
