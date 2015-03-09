@@ -229,6 +229,13 @@ class Group extends Tag
         }
     }
 
+    /**
+     * field container에 class를 추가한다.
+     * TwitterBootstrap3, TwitterBootstrap3Validator에만 동작한다.
+     * framework에 기본적으로 설정되어 있는 class(col-lg-10 col-sm-8)는 삭제된다.
+     *
+     * @param $class
+     */
     public function addFieldContainerClass($class)
     {
         if (is_array($class)) {
