@@ -269,6 +269,24 @@ class Group extends Tag
 		$this->label = $label;
 	}
 
+    /**
+     * label태그에 bootstrap grid 관련 class를 설정한다.
+     * TwitterBootstrap3, TwitterBootstrap3Validator에만 동작한다.
+     * framework에 기본적으로 설정되어 있는 class(col-lg-2 col-sm-4)대신 설정되고, 그 외의 class는 그대로 유지된다.
+     * 여러번 호출시 마지막 호출한 설정만 적용된다.
+     *
+     * @param $class
+     */
+    public function setLabelWidth($class)
+    {
+        if ($this->app['former.framework']->is('TwitterBootstrap3') || $this->app['former.framework']->is('TwitterBootstrap3Validator')) {
+            if (is_array($class)) {
+                $class = implode(' ', $class);
+            }
+            $this->app['former.framework']->setLabelWidth($class);
+        }
+    }
+
 	/**
 	 * Get the formatted group label
 	 *

@@ -92,6 +92,7 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 	 */
 	protected $iconPrefix = 'glyphicon';
 
+    protected $defaultLabelWidth;
     protected $defaultFieldWidth;
 
 	/**
@@ -199,10 +200,15 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 			}
 		}
 
-		$this->labelWidth  = ltrim($labelWidthClass);
+		$this->labelWidth  = $this->defaultLabelWidth = ltrim($labelWidthClass);
         $this->fieldWidth  = $this->defaultFieldWidth = ltrim($fieldWidthClass);
 		$this->fieldOffset = ltrim($fieldOffsetClass);
 	}
+
+    public function setLabelWidth($class)
+    {
+        $this->labelWidth  = $class;
+    }
 
     public function setFieldContainerClass($class)
     {
@@ -266,7 +272,9 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 	public function getLabelClasses()
 	{
 		if ($this->app['former.form']->isOfType('horizontal')) {
-			return array('control-label', $this->labelWidth);
+            $width = $this->labelWidth;
+            $this->labelWidth = $this->defaultLabelWidth;
+            return array('control-label', $width);
 		} elseif ($this->app['former.form']->isOfType('inline')) {
 			return array('sr-only');
 		} else {

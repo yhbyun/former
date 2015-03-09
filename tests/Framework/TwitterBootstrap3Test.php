@@ -218,4 +218,24 @@ class TwitterBootstrap3Test extends FormerTests
 
         $this->assertEquals($match, $field);
     }
+
+    public function testHorizontalFormCanSetLabelWidth()
+    {
+        $field = $this->former->text('foo')->setLabelWidth('col-lg-2 col-sm-2')->setLabelWidth('bar')->__toString();
+        $match = '<div class="form-group">'.
+            '<label for="foo" class="control-label bar">Foo</label>'.
+            '<div class="col-lg-10 col-sm-8"><input class="form-control" id="foo" type="text" name="foo"></div></div>';
+
+        $this->assertEquals($match, $field);
+    }
+
+    public function testHorizontalFormCanSetLabelWidthAddFieldContainerClass()
+    {
+        $field = $this->former->text('foo')->setLabelWidth('col-lg-2 col-sm-2')->setLabelWidth('bar')->addFieldContainerClass('col-lg-2 col-sm-2')->addFieldContainerClass('bar')->__toString();
+        $match = '<div class="form-group">'.
+            '<label for="foo" class="control-label bar">Foo</label>'.
+            '<div class="col-lg-2 col-sm-2 bar"><input class="form-control" id="foo" type="text" name="foo"></div></div>';
+
+        $this->assertEquals($match, $field);
+    }
 }
