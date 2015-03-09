@@ -211,10 +211,10 @@ class TwitterBootstrap3Test extends FormerTests
 
     public function testHorizontalFormCanAddFieldContainerClass()
     {
-        $field = $this->former->text('foo')->addFieldContainerClass('col-lg-2 col-sm-2')->__toString();
+        $field = $this->former->text('foo')->addFieldContainerClass('col-lg-2 col-sm-2')->addFieldContainerClass('bar')->__toString();
         $match = '<div class="form-group">'.
             '<label for="foo" class="control-label col-lg-2 col-sm-4">Foo</label>'.
-            '<div class="col-lg-2 col-sm-2"><input class="form-control" id="foo" type="text" name="foo"></div></div>';
+            '<div class="col-lg-2 col-sm-2 bar"><input class="form-control" id="foo" type="text" name="foo"></div></div>';
 
         $this->assertEquals($match, $field);
     }
