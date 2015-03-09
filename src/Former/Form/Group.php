@@ -209,6 +209,26 @@ class Group extends Tag
 		$this->addClass($class);
 	}
 
+    public function removeGroupClass($class)
+    {
+        if (!is_array($class)) {
+            $class = explode(' ', $class);
+        }
+
+        if (!isset($this->attributes['class'])) {
+            return;
+        }
+
+        // Prevent adding a class twice
+        $classes = explode(' ', $this->attributes['class']);
+        $this->attributes['class'] = null;
+        foreach ($classes as $curClass) {
+            if (!in_array($curClass, $class)) {
+                $this->attributes['class'] = trim($this->attributes['class'].' '.$curClass);
+            }
+        }
+    }
+
     public function addFieldContainerClass($class)
     {
         if (is_array($class)) {

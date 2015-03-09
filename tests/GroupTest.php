@@ -304,6 +304,15 @@ class GroupTest extends FormerTests
 		$this->assertEquals($matcher, $control);
 	}
 
+    public function testCanRemoveClassFromGroup()
+    {
+        $control = $this->former->text('foo')->RemoveGroupClass('control-group')->__toString();
+        $matcher = $this->createMatcher();
+        $matcher = str_replace(' class="control-group"', '', $matcher);
+
+        $this->assertEquals($matcher, $control);
+    }
+
 	public function testCanRecognizeGroupValidationErrors()
 	{
 		$this->mockSession(array('foo' => 'bar', 'bar' => 'baz'));
