@@ -33,7 +33,7 @@ class TwitterBootstrap3ValidatorTest extends TwitterBootstrap3Test
             '<div class="form-group has-error">'.
             '<label for="required" class="control-label">Required</label>'.
             '<input class="form-control" id="required" type="text" name="required">'.
-            '<small class="help-block" data-bv-validator="custom" data-bv-validator-for="required">The required field is required.</small>'.
+            '<small class="help-block" data-bv-validator="serverValidation" data-bv-validator-for="required">The required field is required.</small>'.
             '</div>';
 
         $this->assertEquals($matcher, $required);

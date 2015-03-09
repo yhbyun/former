@@ -19,7 +19,7 @@ class TwitterBootstrap3Validator extends TwitterBootstrap3
     public function createError($text, Field $field, $attributes = array())
     {
         return Element::create('small', $text, $attributes)->addClass('help-block')
-            ->setAttribute('data-bv-validator', 'custom')
+            ->setAttribute('data-bv-validator', 'serverValidation')
             ->setAttribute('data-bv-validator-for', $field->name);
     }
 }
