@@ -285,6 +285,8 @@ class Group extends Tag
             }
             $this->app['former.framework']->setLabelWidth($class);
         }
+
+        return $this;
     }
 
 	/**
