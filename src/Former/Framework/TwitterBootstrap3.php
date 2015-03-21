@@ -94,6 +94,7 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 
     protected $defaultLabelWidth;
     protected $defaultFieldWidth;
+    protected $defaultFieldOffset;
 
 	/**
 	 * Create a new TwitterBootstrap instance
@@ -202,7 +203,7 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 
 		$this->labelWidth  = $this->defaultLabelWidth = ltrim($labelWidthClass);
         $this->fieldWidth  = $this->defaultFieldWidth = ltrim($fieldWidthClass);
-		$this->fieldOffset = ltrim($fieldOffsetClass);
+        $this->fieldOffset = $this->defaultFieldOffset = ltrim($fieldOffsetClass);
 	}
 
     public function setLabelWidth($class)
@@ -213,6 +214,11 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
     public function setFieldContainerClass($class)
     {
         $this->fieldWidth  = $class;
+    }
+
+    public function setFieldOffset($class)
+    {
+        $this->fieldOffset  = $class;
     }
 
 	////////////////////////////////////////////////////////////////////
@@ -458,7 +464,11 @@ class TwitterBootstrap3 extends Framework implements FrameworkInterface
 	{
 		// For horizontal forms, we wrap the actions in a div
 		if ($this->app['former.form']->isOfType('horizontal')) {
-			return Element::create('div', $actions)->addClass(array($this->fieldOffset, $this->fieldWidth));
+            $offset = $this->fieldOffset;
+            $width = $this->fieldWidth;
+            $this->fieldOffset = $this->defaultFieldOffset;
+            $this->fieldWidth = $this->defaultFieldWidth;
+            return Element::create('div', $actions)->addClass(array($offset, $width));
 		}
 
 		return $actions;

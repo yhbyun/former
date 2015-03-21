@@ -58,6 +58,30 @@ class Actions extends FormerObject
 		return $this->app['former.framework']->wrapActions(implode(' ', $content));
 	}
 
+    public function setFieldOffset($class)
+    {
+        if ($this->app['former.framework']->is('TwitterBootstrap3') || $this->app['former.framework']->is('TwitterBootstrap3Validator')) {
+            if (is_array($class)) {
+                $class = implode(' ', $class);
+            }
+            $this->app['former.framework']->setFieldOffset($class);
+        }
+
+        return $this;
+    }
+
+    public function addFieldContainerClass($class)
+    {
+        if ($this->app['former.framework']->is('TwitterBootstrap3') || $this->app['former.framework']->is('TwitterBootstrap3Validator')) {
+            if (is_array($class)) {
+                $class = implode(' ', $class);
+            }
+            $this->app['former.framework']->setFieldContainerClass($class);
+        }
+
+        return $this;
+    }
+
 	/**
 	 * Dynamically append actions to the block
 	 *
