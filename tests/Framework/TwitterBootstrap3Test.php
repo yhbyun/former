@@ -238,4 +238,22 @@ class TwitterBootstrap3Test extends FormerTests
 
         $this->assertEquals($match, $field);
     }
+
+    public function testCanSetLabelWidthOnCustomGroup()
+    {
+        $match = '<div class="form-group"><label for="Foo" class="control-label col-sm-4">Foo</label>';
+
+        $group = $this->former->group('foo')->setLabelWidth('col-sm-4')->__toString();
+        $this->assertEquals($match, $group);
+    }
+
+    public function testCanSetFieldOffsetOnActions()
+    {
+        $match = '<div class="form-group">'.
+            '<div class="col-sm-offset-4 col-sm-8"><input class="btn-lg btn-primary btn" type="submit" value="Submit"></div></div>';
+
+        $action = $this->former->actions()->setFieldOffset('col-sm-offset-4')->addFieldContainerClass('col-sm-8')->lg_primary_submit('Submit')->__toString();
+
+        $this->assertEquals($match, $action);
+    }
 }
