@@ -55,7 +55,11 @@ class Actions extends FormerObject
 			return method_exists($content, '__toString') ? (string) $content : $content;
 		}, $this->value);
 
-		return $this->app['former.framework']->wrapActions(implode(' ', $content));
+        if ($this->app['former.framework']->is('TwitterBootstrap3') || $this->app['former.framework']->is('TwitterBootstrap3Validator')) {
+    		return $this->app['former.framework']->wrapActions(implode('&#xA0;', $content));
+        } else {
+    		return $this->app['former.framework']->wrapActions(implode(' ', $content));
+        }
 	}
 
     public function setFieldOffset($class)

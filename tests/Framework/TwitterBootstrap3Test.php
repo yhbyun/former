@@ -100,9 +100,9 @@ class TwitterBootstrap3Test extends FormerTests
 		$buttons = $this->former->actions()->lg_submit('Submit')->submit('Submit')->sm_submit('Submit')->xs_submit('Submit')->__toString();
 		$match   = '<div>'.
 			'<input class="btn-lg btn" type="submit" value="Submit">'.
-			' <input class="btn" type="submit" value="Submit">'.
-			' <input class="btn-sm btn" type="submit" value="Submit">'.
-			' <input class="btn-xs btn" type="submit" value="Submit">'.
+			'&#xA0;<input class="btn" type="submit" value="Submit">'.
+			'&#xA0;<input class="btn-sm btn" type="submit" value="Submit">'.
+			'&#xA0;<input class="btn-xs btn" type="submit" value="Submit">'.
 			'</div>';
 
 		$this->assertEquals($match, $buttons);
