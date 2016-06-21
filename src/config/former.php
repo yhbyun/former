@@ -65,7 +65,7 @@
 	////////////////////////////////////////////////////////////////////
 
 	// The framework to be used by Former
-	'framework'               => 'TwitterBootstrap3',
+	'framework'               => 'TwitterBootstrap3Validator',
 
 	'TwitterBootstrap3'       => array(
 
